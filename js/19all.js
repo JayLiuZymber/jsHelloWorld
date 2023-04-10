@@ -16,8 +16,8 @@ if (name == 101) { //判斷式
     console.log('name == 102')
 }else{
     //最後結尾會執行 else 的程式碼
-    console.log('name !== 101')
-    console.log('name !== 102')
+    console.log('name != 101')
+    console.log('name != 102')
 };
 
 var key = 333
@@ -31,8 +31,8 @@ switch (key) { //設定一個表達式，且包含條件
         break;
 
     default: //defalt 用法有點像 else，就如果沒有滿足的條件就會執行這個內容，但其位置可以任意放置，但我會習慣放在最後面，這樣寫程式碼比較有邏輯一點
-        console.log('key !== 111')
-        console.log('key !== 222')
+        console.log('key != 111')
+        console.log('key != 222')
         break; // 結束也要用一個 break 當作結束。
 }
 

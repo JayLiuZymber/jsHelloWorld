@@ -1,4 +1,4 @@
-/* 
+/*
 JavaScript 從零開始 - Day17 - 控制判斷 (比較運算子、邏輯運算子) - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
 https://ithelp.ithome.com.tw/articles/10235774
  */
@@ -6,6 +6,11 @@ var a = 1;
 var b = 1;
 console.log(a == b); //結果會得到 true
 console.log(a !== b); //結果會得到 false
+console.log(a != b); //結果會得到 false
+var c = '1';
+console.log(a == c); //結果會得到 true
+console.log(a !== c); //結果會得到 true
+console.log(a != c); //結果會得到 false
 
 // if(0) //for node.js
 if(1) //for html
