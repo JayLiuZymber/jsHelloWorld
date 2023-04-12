@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 13 DOM Node 的建立、刪除與修改 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10191867
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="myList"></ul>
+
+    <script>
+var newDiv = document.createElement('div');
+// 建立 textNode 文字節點
+var textNode = document.createTextNode("Hello world!");
+// 透過 newDiv.appendChild 將 textNode 加入至 newDiv
+newDiv.appendChild(textNode);
+document.body.appendChild(newDiv);
+
+// 取得外層容器 myList
+var ul = document.getElementById("myList");
+// 建立一個 DocumentFragment，可以把它看作一個「虛擬的容器」
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < 3; i++){
+  // 生成新的 li，加入文字後置入 fragment 中。
+  let li = document.createElement("li");
+  li.appendChild(document.createTextNode("Item " + (i+1)));
+  fragment.appendChild(li);
+}
+// 最後將組合完成的 fragment 放進 ul 容器
+ul.appendChild(fragment);
+
+//完全覆蓋
+document.write("<h1>Hello World!!</h1>");
+
+// 寫成這樣， </ script> 會變成目前 script 區塊的結束，導致錯誤
+// document.write("<script type=\"text\javascript\" src=\"file.js\">" + "</ script>");
+// 為了避免這個問題，要將結尾的標籤改個寫法 <\/script> 就 ok 了
+document.write("<script type=\"text\javascript\" src=\"file.js\">" + "<\/script>");
+
+// window.onload = function(){ //網頁已經讀取完成後
+window.onclick = function(){ //點擊滑鼠後
+    document.write("Hello World!!!");
+};
+    </script>
+</body>
+</html>

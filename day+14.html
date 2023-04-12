@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 14 事件機制的原理 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10191970
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="outer">
+        <div id="inner">
+        </div>
+    </div>
+
+    <div>CLICK</div>
+
+    <div>
+        <div id="parent">
+          父元素
+          <div id="child">子元素</div>
+        </div>
+    </div>
+
+    <script>
+/* 
+Chrome 89 更新事件觸發順序，導致99%的文章都錯了（包括MDN） - 掘金
+https://juejin.cn/post/6965682915141386254
+ */
+// 父元素
+var parent = document.getElementById('parent');
+// 子元素
+var child = document.getElementById('child');
+// 透過 addEventListener 指定事件的綁定
+// 第三個參數 true / false 分別代表捕獲/ 冒泡 機制
+
+parent.addEventListener('click', function () {
+    console.log('父捕獲 Parent Capturing');
+}, true);
+parent.addEventListener('click', function () {
+    console.log('父冒泡 Parent Bubbling');
+}, false);
+
+
+child.addEventListener('click', function () {
+    console.log('子捕獲 Child Capturing');
+}, true);
+child.addEventListener('click', function () {
+    console.log('子冒泡 Child Bubbling');
+}, false);
+
+/* 
+parent.addEventListener('click', function () {
+    console.log('父冒泡 Parent Bubbling');
+}, false);
+parent.addEventListener('click', function () {
+    console.log('父捕獲 Parent Capturing');
+}, true);
+
+
+child.addEventListener('click', function () {
+    console.log('子冒泡 Child Bubbling');
+}, false);
+child.addEventListener('click', function () {
+  console.log('子捕獲 Child Capturing');
+}, true);
+ */
+    </script>
+
+<button id="btn" onclick="console.log('HI');">Click</button><br>
+<button id="btn2">Click2</button><br>
+<button id="btn3">Click3</button><br>
+<button id="btn4">Click4</button><br>
+<button id="btn5">Click5</button><br>
+<script>
+var btn = document.getElementById('btn2');
+btn.onclick = function(){
+    console.log('HI2');
+};
+// btn.onclick = null;
+
+var btn = document.getElementById('btn3');
+btn.addEventListener('click', function(){
+    console.log('HI3');
+}, false);
+btn.addEventListener('click', function(){
+    console.log('HELLO');
+}, false);
+
+var btn = document.getElementById('btn4');
+// 移除事件，但是沒用
+btn.removeEventListener('click', function(){
+    console.log('HI4');
+}, false);
+
+var btn = document.getElementById('btn5');
+// 把 event handler 拉出來
+var clickHandler = function(){
+    console.log('HI5');
+};
+btn.addEventListener('mousedown', clickHandler, false);
+// 移除 clickHandler， ok!
+btn.removeEventListener('mouseup', clickHandler, false);
+
+</script>
+</body>
+</html>
