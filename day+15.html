@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 15 隱藏在 "事件" 之中的秘密 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10192015
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">Click</button>
+    <script>
+var btn = document.getElementById('btn');
+
+// 參數 e 就是上面說的事件物件 (Event Object)
+// 因為是參數，當然也可以自己定義名稱
+btn.addEventListener('click', function(e){
+    console.log(e);
+}, false);
+    </script>
+
+    <a id="link" href="https://www.google.com">Google</a>
+<script>
+/* 
+var link = document.querySelector('#link');
+link.addEventListener('click', function (e) {
+    console.log('Google!');
+}, false);
+ */
+var link = document.querySelector('#link');
+// 在 evend handler 加上 e.preventDefault();
+link.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log('Google!');
+}, false);
+    </script>
+    
+    <br>
+    <label for="xxx">Label2</label>
+    <input type="checkbox" name="chkbox" id="xxx">
+    <br>
+    <label class="lbl">
+        Label <input type="checkbox" name="chkbox">
+    </label>
+    <script>
+var lbl = document.querySelector('.lbl');
+lbl.addEventListener('click', function (e) {
+    console.log('lbl click');
+}, false);
+    </script>
+
+    <br>
+    <label class="lbl1">
+        Label1 <input type="checkbox" name="chkbox" id="chkbox1">
+    </label>
+    <script>
+// label
+var lbl = document.querySelector('.lbl1');
+// chkbox
+var chkbox = document.querySelector('#chkbox1');
+
+lbl.addEventListener('click', function (e) {
+    console.log('lbl click2');
+}, false);
+
+chkbox.addEventListener('click', function (e) {
+    // 阻擋 chkbox 的事件冒泡
+    // e.stopPropagation();
+    console.log('chkbox click2');
+}, false);
+
+lbl.addEventListener('click', function (e) {
+    console.log(this.tagName);      // "label"
+}, false);
+    </script>
+
+    <br>
+    <label class="lbl2">
+        Label2 <input type="checkbox" name="chkbox" id="chkbox2">
+    </label>
+<script>
+// label
+var lbl = document.querySelector('.lbl2');
+// chkbox
+var chkbox = document.querySelector('#chkbox2');
+
+// 為了區分在後面加上了 1 & 2
+lbl.addEventListener('click', function (e) {
+    console.log(e.target.tagName, 1);
+    console.log(this.tagName, 1);
+}, false);
+
+chkbox.addEventListener('click', function (e) {
+    console.log(e.target.tagName, 2);
+    console.log(this.tagName, 2);
+}, false);
+    </script>
+</body>
+</html>

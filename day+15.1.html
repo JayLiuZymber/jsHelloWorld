@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 15 隱藏在 "事件" 之中的秘密 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10192015
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="myList">
+        <li>Item 01</li>
+        <li>Item 02</li>
+        <li>Item 03</li>
+    </ul>
+    <script>
+// 取得容器
+var myList = document.getElementById('myList');
+/* 
+// 分別為 li 綁定事件
+if( myList.hasChildNodes() ) {
+    for (var i = 0; i < myList.childNodes.length; i++) {
+        // nodeType === 1 代表為實體 HTML 元素
+        if( myList.childNodes[i].nodeType === 1 ){
+            myList.childNodes[i].addEventListener('click', function(){
+                console.log(this.textContent);
+            }, false);
+        }
+    }
+}
+ */
+// 改讓外層 myList 來監聽 click 事件
+myList.addEventListener('click', function(e){
+    // 判斷目標元素若是 li 則執行 console.log
+    if( e.target.tagName.toLowerCase() === 'li' ){
+        console.log(e.target.textContent);
+    }
+}, false);
+
+// 建立新的 <li> 元素
+var newList = document.createElement('li');
+// 建立 textNode 文字節點
+var textNode = document.createTextNode("Hello world!");
+// 透過 appendChild 將 textNode 加入至 newList
+newList.appendChild(textNode);
+// 透過 appendChild 將 newList 加入至 myList
+myList.appendChild(newList);
+
+    </script>
+</body>
+</html>
