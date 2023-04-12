@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 12 透過 DOM API 尋找節點 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10191765
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<!--     
+    <script>
+document.querySelector('#hello').textContent = 'HELLO';
+    </script>
+     -->
+</head>
+<body>
+    <h1 id="hello"></h1>
+
+    <script>
+document.querySelector('#hello').textContent = 'HELLO';
+    </script>
+
+    <script>
+var node = document.querySelector('#hello');
+// 如果 node 內有子元素
+if( node.hasChildNodes() ) {
+    // 可以透過 node.childNodes[n] (n 為數字索引) 取得對應的節點
+    // 注意，NodeList 物件內容為即時更新的集合
+    for (var i = 0; i < node.childNodes.length; i++) {
+        // ...
+    };
+}
+    </script>
+
+    <p1>
+        <span1>span 1</span>
+        <span1>span 2</span>
+        <span1>span 3</span>
+    </p1>
+    <script>
+        var p = document.querySelector('p1');
+        // tagName 屬性可以取得 node 的標籤名稱
+        console.log(p.firstChild.tagName);      // undefined
+    </script>
+
+    <p><span>span 1</span><span>span 2</span><span>span 3</span></p>
+    <script>
+        var p = document.querySelector('p');
+        // tagName 屬性可以取得 node 的標籤名稱
+        console.log(p.firstChild.tagName);      // "SPAN"
+        
+        var p = document.querySelector('p');
+        // textContent 屬性可以取得節點內的文字內容
+        console.log(p.lastChild.textContent);      // "" (換行字元)
+
+        var p = document.querySelector('p');
+        // textContent 屬性可以取得節點內的文字內容
+        console.log(p.lastChild.textContent);      // "span 3"
+
+        var el = document.querySelector('span');
+        console.trace( el.parentNode.nodeName );    // "P"
+
+        var el = document.querySelector('span');
+        console.log( el.previousSibling );    // null
+        // document.querySelectorAll 會取得所有符合條件的集合，
+        // 而 document.querySelectorAll('span')[2] 指的是「第三個」符合條件的元素。
+        var el2 = document.querySelectorAll('span')[2];
+        console.log( el2.previousSibling.textContent );    // "span 2"
+        console.log( el2.previousSibling.previousSibling.textContent ); // "span 1"
+        console.log( el2.previousSibling.previousSibling.previousSibling ); // null
+
+        // document.querySelector 會取得第一個符合條件的元素
+        var el = document.querySelector('span');
+        console.log( el.nextSibling.textContent );    // "span 2"
+        console.log( el.nextSibling.nextSibling.textContent ); // "span 3"
+        console.log( el.nextSibling.nextSibling.nextSibling ); // null
+    </script>
+
+    <div id="outer">
+        <div id="inner">inner</div>
+    </div>
+    <script>
+        // <div id="outer">
+        var outerDiv = document.getElementById('outer');
+        // 所有的 <div> 標籤
+        var allDivs = document.getElementsByTagName('div');
+        console.trace(allDivs.length);    // 2
+        // 清空 <div id="outer"> 下的節點
+        outerDiv.innerHTML = '';
+        // 因為清空了<div id="outer"> 下的節點，所以只剩下 outer
+        console.log(allDivs.length);    // 1
+    </script>
+
+    <div2 id="outer2">
+        <div2 id="inner">inner</div2>
+    </div2>
+    <script>
+        // <div id="outer">
+        var outerDiv = document.getElementById('outer2');
+        // 所有的 <div> 標籤
+        var allDivs = document.querySelectorAll('div2');
+        console.log(allDivs.length);    // 2
+        // 清空 <div id="outer"> 下的節點
+        outerDiv.innerHTML = '';
+        // document.querySelector 回傳的是靜態的 NodeList，不受 outerDiv 更新影響
+        console.log(allDivs.length);    // 2
+    </script>
+
+<script>
+// 根據傳入的值，找到 DOM 中 id 為 'xxx' 的元素。
+document.getElementById('xxx');
+
+// 針對給定的 tag 名稱，回傳所有符合條件的集合
+document.getElementsByTagName('xxx');
+
+// 針對給定的 class 名稱，回傳所有符合條件的集合
+// IE9 後開始支援
+document.getElementsByClassName('xxx');
+
+// 針對給定的 Selector 條件，回傳第一個 或 所有符合條件的 NodeList。
+// IE8 後開始支援
+document.querySelector('xxx');
+document.querySelectorAll('xxx');
+
+document.nodeType === Node.DOCUMENT_NODE;   // true
+document.nodeType === 9;   // true
+
+</script>
+</body>
+</html>

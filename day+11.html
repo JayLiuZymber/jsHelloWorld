@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 11 前端工程師的主戰場：瀏覽器裡的 JavaScript - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10191666
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Bin</title>
+</head>
+<body>
+    <h1 id="greet"></h1>
+
+    <script>
+        document.querySelector('#greet').textContent = 'Hello World!'
+        // document.getElementById('greet').textContent = 'Hello World!!'
+    </script>
+
+<!-- 開啟網頁 按F12開啟主控台 -->
+<script>
+var a = 10;
+console.log( window.a );    // 10
+
+delete a;            // false
+console.log( window.a );    // 10
+
+delete window.a;            // true
+console.log( window.a );    // undefined
+
+// window.alert('message');
+
+// 根據傳入的值，找到 DOM 中 id 為 'xxx' 的元素。
+document.getElementById('xxx');
+// 針對給定的 tag 名稱，回傳所有符合條件的 NodeList 物件 [註1]
+document.getElementsByTagName('xxx');
+// 針對給定的 class 名稱，回傳所有符合條件的 NodeList 物件。
+document.getElementsByClassName('xxx');
+// 針對給定的 Selector 條件，回傳第一個 或 所有符合條件的 NodeList。
+document.querySelector('xxx');
+document.querySelectorAll('xxx');
+</script>
+</body>
+</html>
