@@ -12,9 +12,9 @@ console.log( square(4) );        // 16
 var square2 = function (number) {
     return number * number;
 };
-console.log( square2(2) );
-console.log( square2(3) );
-console.log( square2(4) );
+console.log( '%c'+square2(2), 'color: yellow' );
+console.log( '%c'+square2(3), 'color: yellow' );
+console.log( '%c'+square2(4), 'color: yellow' );
 
 var square3 = function func(number) {
     console.log( typeof func );   // "function"

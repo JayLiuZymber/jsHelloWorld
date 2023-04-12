@@ -3,6 +3,7 @@
 https://ithelp.ithome.com.tw/articles/10190873
 Chrome 瀏覽器中執行 JavaScript | 菜鳥教學
 https://www.runoob.com/js/js-chrome.html
+Chrome瀏覽器中 按F12
  */
 // 透過 var 宣告變數 n，因為沒有給 n 數值，此時 n 的內容為 undefined。
 var n;
