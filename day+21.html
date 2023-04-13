@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 21 函式的 Combo 技： Cascade - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10193549
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+var calNum = function(num){
+    this.num = num;
+    this.add = function(newNum) {
+        this.num += newNum;
+    };
+    this.sub = function(newNum) {
+        this.num -= newNum;
+    };
+    this.multi = function(newNum) {
+        this.num *= newNum;
+    };
+    this.division = function(newNum){
+        this.num /= newNum;
+    };
+};
+
+var a = new calNum(100);
+console.log( a.num );       // 100
+
+a.add(100);
+console.log( a.num );   // 200
+a.sub(50);
+console.log( a.num );   // 150
+
+var calNum = function(num){
+    this.num = num;
+    this.add = function(newNum) {
+        this.num += newNum;
+        return this;
+    };
+    this.sub = function(newNum) {
+        this.num -= newNum;
+        return this;
+    };
+    this.multi = function(newNum) {
+        this.num *= newNum;
+        return this;
+    };
+    this.division = function(newNum){
+        this.num /= newNum;
+        return this;
+    };
+};
+var a = new calNum(100);
+a.add(100).sub(50);
+console.log( a.num );   // 150
+
+var arr = [1, 2, 8, 0, 10, 51, 23, 32, 3, 7, 10, 9, 18, 5];
+// 把 arr 陣列中奇數過濾出來，個別求出平方後，由小至大做排序
+var num = arr.filter(function(a){ return a % 2 !== 0 })
+             .map(function(a){ return a * a; })
+             .sort(function(a, b){ return a - b; });
+console.log(num);      // [1, 9, 25, 49, 81, 529, 2601]
+    </script>
+</body>
+</html>

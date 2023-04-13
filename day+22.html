@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 22 深入理解 JavaScript 物件屬性 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10193747
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+var person = new Object();
+person.name = 'Kuro';
+
+var person = {
+    name: 'Kuro'
+};
+
+function Person( name, age, gender ){
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+
+    this.greeting = function(){
+        console.log('Hello! My name is ' + this.name + '.');
+    };
+}
+var kuro = new Person( 'Kuro', 32, 'male');
+kuro.greeting();      // "Hello! My name is Kuro."
+var John = new Person( 'John', 10, 'male');
+John.greeting();      // "Hello! My name is John."
+
+var kuro = new Person( 'Kuro', 32, 'male');
+/*
+===> var kuro = {};
+===> Person.call(kuro, 'Kuro', 32, 'male');
+*/
+console.log( kuro.age );    // 32
+// 因為是公開屬性，所以可以很無恥地開放修改 (欸)
+kuro.age = 18;
+console.log( kuro.age );    // 18
+
+var person = {
+    name: 'kuro'
+};
+var person = {};
+Object.defineProperty(person, 'name', {
+    value: 'kuro'
+});
+console.log(Object.getOwnPropertyDescriptor(person, 'name'));
+
+var person2 = {
+  name: 'kuro'
+};
+console.log(Object.getOwnPropertyDescriptor(person2, 'name'));
+
+var person3 = {};
+Object.defineProperty(person3, 'name', {
+    value: 'kuro',
+    writable: false,
+    enumerable: false,
+    configurable: false
+});
+console.log(Object.getOwnPropertyDescriptor(person3, 'name'));
+
+var person4 = {};
+Object.defineProperty(person4, 'name', {
+    enumerable: true
+});
+console.log(Object.getOwnPropertyDescriptor(person4, 'name'));
+console.log(delete person3.name);   // it will return false
+console.log(delete person2.name);   // it will return false
+
+var person5 = {};
+Object.defineProperty(person5, 'name', {
+    get: function(){
+        console.log('get');
+        return this._name_;
+    },
+    set: function(name){
+        console.log('set');
+        this._name_ = name;
+    }
+});
+console.log(Object.getOwnPropertyDescriptor(person5, 'name'));
+person5.name     // call get
+person5.name = 1 // call set
+    </script>
+</body>
+</html>

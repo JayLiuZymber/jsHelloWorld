@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 19 閉包 Closure - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10193009
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+function outer() {
+    // 在 outer 這層拿不到變數 c
+    // 但可以向外找到變數 a
+    var b = a * 2;
+    // 把 var 拿掉
+    // b = a * 2;
+    function inner(c) {
+        // 由於範圍鍊的關係，雖然只有對 c 定義，
+        // 但可以像上一層一層取得 a, b, c
+        console.log(a, b, c);
+    }
+    inner(b * 3);
+}
+
+// 在 global 這層只有 a, 不認得 b 與 c
+var a = 1;
+outer(a);
+
+var msg = "global."
+function outer() {
+    var msg = "local."
+    function inner() {
+        return msg;
+    }
+    return inner;
+}
+var innerFunc = outer();
+var result = innerFunc();
+console.log( result );    //  ? "local."
+
+console.log('---');
+
+var count = 0;
+function counter(){
+  return ++count;
+}
+console.log( counter() );   // 1
+console.log( counter() );   // 2
+console.log( counter() );   // 3
+
+function counter2(){
+    var count = 0;
+    function innerCounter(){
+        return ++count;
+    }
+    return innerCounter;
+}
+var countFunc2 = counter2();
+console.log( countFunc2() );   // 1
+console.log( countFunc2() );   // 2
+console.log( countFunc2() );   // 3
+
+function counter3(){
+    var count = 0;
+    return function(){
+        return ++count;
+    }
+}
+var countFunc3 = counter3();
+console.log( countFunc3() );   // 1
+console.log( countFunc3() );   // 2
+console.log( countFunc3() );   // 3
+
+var counter4 = () => {
+    var count = 0;
+    return () => ++count;
+}
+var countFunc4 = counter4();
+console.log( countFunc4() );   // 1
+console.log( countFunc4() );   // 2
+console.log( countFunc4() );   // 3
+
+console.log('---');
+
+function counter10(){
+    var count = 0;
+    return function(){
+        return ++count;
+    }
+}
+var countFunc10 = counter10();
+var countFunc102 = counter10();
+console.log( countFunc10() );   // 1
+console.log( countFunc10() );   // 2
+console.log( countFunc10() );   // 3
+console.log( countFunc102() );   // 1
+console.log( countFunc102() );   // 2
+
+console.log('---QA');
+
+function counter11(){
+    var count = 0;
+    function innerCounter(){
+        return ++count;
+    }
+    return innerCounter;
+}
+console.log( counter11() );   // 1x innerCounter
+console.log( counter11() );   // 2x innerCounter
+console.log( counter11() );   // 3x innerCounter
+
+var countFunc11 = counter11();
+console.log( countFunc11() );   // 1
+console.log( countFunc11() );   // 2
+console.log( countFunc11() );   // 3
+    </script>
+</body>
+</html>

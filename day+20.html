@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 20 What's "THIS" in JavaScript (鐵人精華版) - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10193193
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+var getGender = function(){
+    return people1.gender;
+};
+// var getGender = function(){
+//     return this.gender;
+// };
+var people1 = {
+    gender: 'female',
+    getGender: getGender
+};
+var people2 = {
+    gender: 'male',
+    getGender: getGender
+};
+console.log( people1.getGender() );
+console.log( people2.getGender() );
+
+var foo = function() {
+    this.count++;
+};
+foo.count = 0;
+for( var i = 0; i < 5; i++ ) {
+    foo();
+}
+console.log(foo.count); //0
+
+var bar = function() {
+    console.log( this.a );
+};
+var foo = function() {
+    var a = 123;
+    this.bar();
+};
+foo(); //undefined
+
+console.log('---');
+
+var obj = {
+    func1: function(){
+        console.log( this === obj );
+        var func2 = function(){
+            // 這裡的 this 跟上層不同！
+            console.log( this === obj );
+        };
+        func2();
+    }
+};
+obj.func1();
+
+var obj = {
+    func1: function(){
+        "use strict";
+        console.log( this === obj );
+        var func2 = function(){
+            // 宣告成嚴格模式後，這裡的 this 會變成 undefined。
+            console.log( this );
+        };
+        func2();
+    }
+};
+obj.func1();
+    </script>
+<!-- 
+使用 jQuery的 $.Ajax() 技術和介接api吧! - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10226692
+ -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+    <label id="lbl">Label</label>
+    <script>
+var el = document.getElementById('lbl');
+el.addEventListener("mousedown", function(event) {
+    // 透過 that 參考
+    var that = this;
+    console.log( this.textContent );
+    $.ajax('[URL]', function(res) {
+        // this.textContent => undefined
+        console.log(that.textContent, res);
+    });
+}, false);
+
+el.addEventListener("mouseup", function(event) {
+    console.log( this.textContent );
+    // 透過 .bind(this) 來強制指定該 scope 的 this
+    $.ajax('[URL]', function(res) {
+        console.log(this.textContent, res);
+    }.bind(this));
+}, false);
+
+console.log('---');
+
+var obj = {
+    x: 123
+};
+var func = function () {
+    console.log(this.x);
+};
+func();            // undefined
+func.bind(obj)();  // 123
+    </script>
+    
+    <label id="lbl2">Label2</label>
+    <script>
+var el = document.getElementById('lbl2');
+el.addEventListener("click", function(event) {
+    console.log( this.textContent );
+    // 箭頭函式隱含「強制指定 this」 至 callback function 中
+    $.ajax('[URL]', res => {
+        console.log(this.textContent, res);
+    });
+}, false);
+
+function func2( ){
+    // do something
+    console.log('func');    
+}
+func2.call( );
+func2.apply( );
+
+// function func2( arg1, arg2, ... ){
+    // do something  
+// }
+// func2.call( context, arg1, arg2, ... );
+// func2.apply( context, [ arg1, arg2, ... ]);
+
+console.log('---');
+
+function func() {
+     console.log( this.a );
+}
+var obj = {
+    a: 2,
+    foo: func
+};
+func();       // undefined
+obj.foo();    // 2
+
+var func2 = obj.foo;
+func2();    // ?? undefined
+
+function foo(a) {
+    this.a = a;
+}
+var obj = new foo( 123 );
+console.log( obj.a );      // 123
+    </script>
+</body>
+</html>

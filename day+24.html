@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 24 物件與原型鏈 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10194154
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+// 洛克人的武器是 buster 飛彈
+var rockman = { buster: true };
+// 剪刀人的武器是剪刀
+var cutman  = { cutter: true };
+
+// 注意，屬性名稱必須是「字串」
+console.log( 'buster' in rockman );     // true
+console.log( 'cutter' in rockman );     // false
+
+// 指定 cutman 為 rockman 的「原型」
+Object.setPrototypeOf(rockman, cutman);
+console.log( 'buster' in rockman );     // true
+// 透過原型繼承，現在洛克人也可以使用剪刀人的武器了
+console.log( 'cutter' in rockman );     // true
+
+console.log('---');
+
+// 氣力人的武器是超級手臂
+var gutsman = { superArm: true };
+// 指定 gutsman 為 rockman 的「原型」
+Object.setPrototypeOf(rockman, gutsman);
+// 這個時候洛克人也可以使用氣力人的超級手臂
+console.log( 'superArm' in rockman );     // true
+// 但是剪刀卻不見了，哭哭
+console.log( 'cutter' in rockman );       // false
+
+console.log('---');
+
+// 指定 cutman 為 rockman 的「原型」
+Object.setPrototypeOf(rockman, cutman);
+// 指定 gutsman 為 cutman 的「原型」
+Object.setPrototypeOf(cutman, gutsman);
+// 這樣洛克人就可以順著「原型鏈」取得各種武器了!
+console.log( 'buster' in rockman );       // true
+console.log( 'cutter' in rockman );       // true
+console.log( 'superArm' in rockman );     // true
+
+console.log('---');
+
+var Person = function(){};
+// 函式也是物件，所以可以透過 prototype 來擴充每一個透過這個函式所建構的物件
+Person.prototype.sayHello = function(){
+    // return "Hi!";
+    return console.log("Hi!");
+}
+var p1 = Person();
+var p2 = new Person();
+p2.sayHello();      // "Hi!"
+
+var Person = function(){
+    this.sayHello = function(){
+        // return "Yo!";
+        return console.log("Yo!");
+    };
+};
+Person.prototype.sayHello = function(){
+    // return "Hi!";
+    return console.log("Hi!");
+}
+var p = new Person();
+p.sayHello();
+
+console.log('---');
+
+console.log( 'buster' in rockman );       // true
+console.log( 'cutter' in rockman );       // true
+console.log( 'superArm' in rockman );     // true
+console.log( rockman.hasOwnProperty('buster') );    // true
+console.log( rockman.hasOwnProperty('superArm') );  // false
+    </script>
+</body>
+</html>

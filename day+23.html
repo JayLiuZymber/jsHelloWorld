@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 23 基本型別包裹器 Primitive Wrapper - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10193902
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+var str = 'Hello';
+console.log( typeof str );        // "string"
+
+var strObj = new String('Hello');
+console.log( typeof strObj );     // "object"
+
+var str = 'Hello';
+console.log( str.length );           // 5
+console.log( str.toUpperCase() );    // "HELLO"
+
+var str = new String("Hello");
+str.length;
+str = null;
+str = 'Hello';
+
+var str = 'Hello';
+console.log( typeof str );        // "string"
+var strObj = new String('Hello');
+console.log( typeof strObj );     // "object"
+// 像這樣，分別為物件與基本型別的 string 設定「屬性」
+strObj.color = 'red';
+str.color = 'red';
+console.log( strObj.color );      // 'red'
+console.log( str.color );         // undefined
+
+console.log('---');
+
+var nameStr = new String("Kuro");
+console.log( typeof nameStr );                          // "object"
+console.log( nameStr instanceof String );               // true
+console.log( nameStr.valueOf() );                       // "Kuro"
+var num = new Number(100);
+console.log( typeof num );                             // "object"
+console.log( num instanceof Number );                  // true
+console.log( num.valueOf() );                          // 100
+    </script>
+</body>
+</html>
