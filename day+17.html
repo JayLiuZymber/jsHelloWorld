@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 17 函式裡的「參數」 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10192368
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+// 把函式存入「變數」, 呼叫時執行 funcA();
+var funcA = function(){};
+// 把函式存入「陣列」, 呼叫時執行 funcB[0]()
+var funcB = [function(){}];
+// 把函式存入「物件」的屬性, 呼叫時執行 funcC.method() 或 funcC['method']()
+var funcC = { method: function(){} };
+
+// 把函式當作「參數」，傳入到另一個函式中。
+var funcD = function(func){
+  return func;
+};
+// 「另一個」函式: 存放的是 funcD，而參數為一個匿名函式
+var runFuncPassedToFuncD = funcD(function(){console.log('Hi');});
+// 呼叫「另一個」函式
+runFuncPassedToFuncD();   // "Hi"
+
+// 函式是「物件」的一種，當然也可以有自己的「屬性」
+var funcE = function(){};
+funcE.answer = 'yup';
+console.log(funcE.answer);      // 'yup'
+var plus = function (numA, numB) {
+    return numA + numB;
+};
+console.log(plus(1, 2));      // 3
+console.log(plus(3, 4));      // 7
+console.log(plus(1, 2, 3, 4, 5)); //3
+console.log(plus( )); //NaN
+
+console.log('---');
+
+var plus = function (numA, numB) {
+    console.log( arguments.length );
+    return numA + numB;
+};
+// 因為有 5 個參數，會先 log 出 5，然後回傳 1+2 的結果
+console.log(plus(1, 2, 3, 4, 5)); //5 3
+
+console.log('---');
+
+var plus = function (numA, numB) {
+    for( var i = 0; i < arguments.length; i++ ){
+        console.log( arguments[i] );
+    }
+    return numA + numB;
+};
+// console.log 印出 1 2 3 4 5
+console.log(plus(1, 2, 3, 4, 5)); //3
+
+console.log('---');
+
+var plus = function (numA, numB) {
+    // arguments.callee 指的是 plus 這個 function
+    console.log( arguments.callee );
+    return numA + numB;
+};
+plus(6, 7);
+
+console.log('---');
+
+var plus = function (numA, numB) {
+    return numA + numB;
+};
+console.log(plus(1)); // NaN
+
+var plus = function (numA, numB) {
+    numA = numA || 0;
+    numB = numB || 0;
+    return numA + numB;
+};
+console.log(plus(2)); //2
+
+var plus = function (numA, numB) {
+    numA = (typeof numA !== 'undefined') ? numA : 0;
+    numB = (typeof numB !== 'undefined') ? numB : 0;
+    return numA + numB;
+};
+console.log(plus(3)); //3
+
+var plus = function (numA = 0, numB = 0) {
+    return numA + numB;
+};
+console.log(plus(4)); //4
+
+var plus = function (numA, numB) {
+    var args = Array.prototype.slice.call(arguments);
+    var args2 = [].slice.call(arguments);
+    // ES6
+    const args3 = Array.from(arguments);
+    console.log(args);
+    console.log(args2);
+    console.log(args3);
+}
+plus(5); //5
+
+var o = { value: 10 };
+function changeValue(obj) {
+    obj = { value: 123 };
+}
+changeValue(o);
+console.log(o);   // 此時 o 仍是 { value: 10 }
+    </script>
+</body>
+</html>

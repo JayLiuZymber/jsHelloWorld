@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 16 那些你知道與不知道的事件們 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10192175
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+// 因 Document 結構未載入，無效
+// document.getElementById('hello').textContent = 'Hello';
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 當 document 結構已解析完成才會執行
+    document.getElementById('hello').textContent = 'Hello';
+}, false);
+    </script>
+</head>
+<body>
+    <!-- <img src="image.jpg" onerror="this.src='default.jpg'"> -->
+    <img src="image.jpg" onerror='console.log("圖片不存在")'>
+
+    <div id="hello"></div>
+
+    <input type="text" id="textbox">
+    <br>
+    <label id="elem">Element</label>
+    <br>
+    <label id="elem2">Element2</label>
+
+    <script>
+var textBox = document.querySelector('#textbox');
+textBox.addEventListener('keydown', function(e){
+    console.log(e.keyCode);
+    // enter 的 keyCode 是 13
+    if( e.keyCode === 13 ){
+        formSubmit();
+    }
+}, false);
+function formSubmit(){
+    console.log('formSubmit');
+}
+
+var elem = document.querySelector('#elem');
+var event = new Event('build');
+// 監聽事件
+elem.addEventListener('build', function (e) {console.log('build')}, false);
+// 觸發事件
+elem.dispatchEvent(event);
+
+var elem = document.querySelector('#elem2');
+elem.addEventListener('click', function (e) {eventHandler(e)}, false);
+var event = new CustomEvent('build', { 'detail': elem.dataset.time });
+function eventHandler(e) {
+    console.log('The time is: ' + e.detail);
+}
+    </script>
+</body>
+</html>
