@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- 
+[ES6-重點紀錄] 擴展運算子 Spread Operator - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10195477
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+// 取得 HTML DOM 使用到 querySelectorAll()
+// 所得到的資料為 NodeList 物件結構
+const nodeData = document.querySelectorAll('body');
+const arrayData = [...nodeData];
+console.log(nodeData);  // NodeList [body]
+console.log(arrayData); // [body]
+    </script>
+</body>
+</html>
