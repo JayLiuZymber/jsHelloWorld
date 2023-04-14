@@ -12,7 +12,8 @@ class foo {
     
     // class 的方法
     getPoint() {
-        return {x, y};
+        // return {x, y}; //Uncaught ReferenceError ReferenceError: x is not defined
+        return {x: this.x, y: this.y};
     }
 }
 
