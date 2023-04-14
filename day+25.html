@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 25 原型與繼承 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10194356
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+var Person = function(name){
+    this.name = name;
+};
+// 在 Person.prototype 新增 sayHello 方法
+Person.prototype.sayHello = function(){
+    return "Hi, I'm " + this.name;
+}
+var p = new Person('Kuro');
+console.log(p.sayHello());       // "Hi, I'm Kuro"
+
+// console.log(p.sayHelloWorld());  // TypeError: p.sayHelloWorld is not a function
+Person.prototype.sayHelloWorld = function(){
+    return "Hello, World!";
+}
+console.log(p.sayHelloWorld());  // "Hello, World!"
+
+if (!Array.prototype.find) {
+    Array.prototype.find = function(predicate) {
+        if (this === null) {
+            throw new TypeError('Array.prototype.find called on null or undefined');
+        }
+        if (typeof predicate !== 'function') {
+            throw new TypeError('predicate must be a function');
+        }
+        var list = Object(this);
+        var length = list.length >>> 0;
+        var thisArg = arguments[1];
+        var value;
+
+        for (var i = 0; i < length; i++) {
+            value = list[i];
+            if (predicate.call(thisArg, value, i, list)) {
+                console.log(value);
+                return value;
+            }
+        }
+        console.log('undefined');
+        return undefined;
+    };
+}
+else
+    console.log('Array.prototype.find');
+
+// 所以 p 也可以呼叫 sayHello 方法
+console.log( p.sayHello() );      // "Hi, I'm Kuro"
+console.log(Object.getPrototypeOf( p ) === Person.prototype);         // true
+console.log(Object.getPrototypeOf( p ) === Function.prototype);       // false
+console.log(Object.getPrototypeOf( Person ) === Function.prototype);  // true
+console.log( p.__proto__ === Person.prototype );          // true
+console.log( p.__proto__ === Function.prototype );        // false
+console.log( Person.__proto__ === Function.prototype );   // true
+
+// Person 物件
+var Person = {
+    name: 'Default_Name',
+    sayHello: function(){
+        return "Hi, I'm " + this.name;
+    }
+};
+// 透過 Object.create() 將 Person 作為原型物件來建立一個新的物件
+var p = Object.create(Person);
+console.log(p.sayHello());   // "Hi, I'm Default_Name"
+p.name = 'Kuro';
+console.log(p.sayHello());   // "Hi, I'm Kuro"
+/* 
+Object.create = function (proto){
+    function F() {}
+    F.prototype = proto;
+    return new F();
+}
+ */
+
+console.log( Object.getPrototypeOf(Function.prototype) === Object.prototype );   // true
+// 或是透過 __proto__
+console.log( Function.prototype.__proto__ === Object.prototype );   // true
+    </script>
+</body>
+</html>

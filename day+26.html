@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!-- 
+重新認識 JavaScript: Day 26 同步與非同步 - iT 邦幫忙::一起幫忙解決難題，拯救 IT 人的一天
+https://ithelp.ithome.com.tw/articles/10194569
+ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+var result = [];
+var step = 3;
+// 假設 funcA、funcB、funcC 分別代表「切青菜、切番茄、擺盤」
+function funcA(){
+    window.setTimeout(function(){
+        result.push('A');
+        console.log('A');
+        if( result.length === step ){
+            funcD();
+        }
+    }, (Math.random() + 1) * 1000);
+}
+function funcB(){
+    window.setTimeout(function(){
+        result.push('B');
+        console.log('B');
+        if( result.length === step ){
+            funcD();
+        }
+    }, (Math.random() + 1) * 1000);
+}
+function funcC(){
+    window.setTimeout(function(){
+        result.push('C');
+        console.log('C');
+        if( result.length === step ){
+            funcD();
+        }
+    }, (Math.random() + 1) * 1000);
+}
+function funcD(){
+    console.log('上菜！');
+    result = [];
+}
+funcA();
+funcB();
+funcC();
+
+function serials(tasks, callback) {
+    var step = tasks.length;
+    var result = [];
+    // 檢查的邏輯寫在這裡
+    function check(r) {
+        result.push(r);
+        if( result.length === step ){
+            callback();
+        }
+    }
+    tasks.forEach(function(f) {
+        f(check);
+    });
+}
+function funcA2(check){
+    window.setTimeout(function(){
+        console.log('A2');
+        check('A2');
+    }, (Math.random() + 1) * 1000);
+}
+function funcB2(check){
+    window.setTimeout(function(){
+        console.log('B2');
+        check('B2');
+    }, (Math.random() + 1) * 1000);
+}
+function funcC2(check){
+    window.setTimeout(function(){
+        console.log('C2');
+        check('C2');
+    }, (Math.random() + 1) * 1000);
+}
+function funcD2(){
+    console.log('上菜！2');
+}
+serials([funcA2, funcB2, funcC2], funcD2);
+
+const myFirstPromise = new Promise((resolve, reject) => {
+    resolve("OK");         // 完成
+    reject("failure reason");   // 拒絕
+});
+
+function myAsyncFunction(url) {
+    return new Promise((resolve, reject) => {
+        // resolve() or reject()
+    });
+};
+
+function funcA3(){
+    return new Promise(function(resolve, reject){
+        window.setTimeout(function(){
+            console.log('A3');
+            resolve('A3');
+        }, (Math.random() + 1) * 1000);
+    });
+}
+function funcB3(){
+    return new Promise(function(resolve, reject){
+        window.setTimeout(function(){
+            console.log('B3');
+            resolve('B3');
+        }, (Math.random() + 1) * 1000);
+    });
+}
+function funcC3(){
+    return new Promise(function(resolve, reject){
+        window.setTimeout(function(){
+            console.log('C3');
+            resolve('C3');
+        }, (Math.random() + 1) * 1000);
+    });
+}
+funcA3().then(funcB3).then(funcC3);
+
+// funcA, funcB, funcC 的先後順序不重要
+// 直到這三個函式都回覆 resolve 或是「其中一個」 reject 才會繼續後續的行為
+Promise.all([funcA3(), funcB3(), funcC3()])
+       .then(function(){ console.log('上菜4'); });
+
+console.log('---QA');
+
+function funcA4(val){
+    return new Promise(function(resolve, reject){
+        window.setTimeout(function(){
+            console.log('A', val);
+            resolve(val);
+        }, (Math.random() + 1) * 1000);
+    });
+}
+function funcB4(val){
+    return new Promise(function(resolve, reject){
+        window.setTimeout(function(){
+            console.log('B', val);
+            resolve(val);
+        }, (Math.random() + 1) * 1000);
+    });
+}
+function funcC4(val){
+    return new Promise(function(resolve, reject){
+        window.setTimeout(function(){
+            console.log('C', val);
+            resolve(val);
+        }, (Math.random() + 1) * 1000);
+    });
+}
+funcA4(123).then(funcB4).then(funcC4);
+
+funcA4(11).then(()=>funcB4(22)).then(()=>funcC4(33))
+    </script>
+</body>
+</html>
